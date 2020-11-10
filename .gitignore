@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# Qt
+moc_*
+Makefile
+.qmake.stash
+snapplay
