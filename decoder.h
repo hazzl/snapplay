@@ -8,7 +8,7 @@ class Decoder : public QAudioDecoder
 {
     Q_OBJECT
 public:
-    Decoder(QObject *parent);
+    Decoder(QObject *parent = nullptr);
     ~Decoder();
 private:
     QFile out;
