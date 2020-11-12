@@ -4,7 +4,7 @@
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    Decoder d;
+    Decoder d(&a);
 
     d.setSourceFilename("/srv/daten/Musik/xiaoxingxing.ogg");
     a.connect(&d, SIGNAL(Decoder::error(QAudioDecoder::Error e)), &a, SLOT(QCoreApplication::quit()));

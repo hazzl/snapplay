@@ -1,7 +1,8 @@
 #include "decoder.h"
 #include <QAudioFormat>
 
-Decoder::Decoder()
+Decoder::Decoder(QObject *parent)
+    :QAudioDecoder(parent)
 {
     out.setFileName("/tmp/snapfifo");
     if (!out.exists())
@@ -30,7 +31,6 @@ Decoder::Decoder()
 Decoder::~Decoder()
 {
     out.close();
-    QAudioDecoder::~QAudioDecoder();
 }
 
 void Decoder::copyBuffer()
