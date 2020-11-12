@@ -4,7 +4,7 @@
 Decoder::Decoder(QObject *parent)
     :QAudioDecoder(parent)
 {
-    out.setFileName("/tmp/snapfifo");
+    out.setFileName("/run/snapserver/fifo");
     if (!out.exists())
     {
         //throw error
