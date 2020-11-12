@@ -36,3 +36,4 @@ moc_*
 Makefile
 .qmake.stash
 snapplay
+snapplay.pro.user
