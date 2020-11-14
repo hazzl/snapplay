@@ -1,4 +1,4 @@
-QT += network multimedia
+QT += network multimedia sql
 QT -= gui
 
 CONFIG += c++11 console
@@ -25,3 +25,6 @@ HEADERS += \
     decoder.h \
     playserver.h \
     playthread.h
+
+DISTFILES += \
+    dbinit.sql
