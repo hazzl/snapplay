@@ -13,6 +13,7 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 SOURCES += \
         decoder.cpp \
         main.cpp \
+        playlist.cpp \
         playserver.cpp \
         playthread.cpp
 
@@ -23,6 +24,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     decoder.h \
+    playlist.h \
     playserver.h \
     playthread.h
 

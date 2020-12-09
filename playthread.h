@@ -11,6 +11,7 @@ class PlayThread : public QThread
     Q_OBJECT
 public:
     explicit PlayThread(quintptr socketDescriptor, QObject *parent = nullptr);
+    ~PlayThread();
     void run() override;
 signals:
     void error(QTcpSocket::SocketError socketError);

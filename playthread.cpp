@@ -17,6 +17,11 @@ PlayThread::PlayThread(quintptr socketDescriptor, QObject *parent)
         emit error(QTcpSocket::ConnectionRefusedError);
 }
 
+PlayThread::~PlayThread()
+{
+    db.close();
+}
+
 void PlayThread::run()
 {
     if (!tcpSocket.setSocketDescriptor(socketDescriptor)) {
