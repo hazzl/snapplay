@@ -2,6 +2,7 @@
 #include "playthread.h"
 #include <QUrl>
 #include <QMediaContent>
+#include <QDebug>
 
 PlayServer::PlayServer(QObject *parent)
     :QTcpServer(parent)
@@ -26,6 +27,7 @@ void PlayServer::incomingConnection(qintptr socketDescriptor)
 
 void PlayServer::addMedia(const QString &path)
 {
+    qDebug() << "adding " << path ;
     QUrl url;
     QMediaContent *content;
     url.fromLocalFile(path);

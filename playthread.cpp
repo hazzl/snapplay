@@ -2,6 +2,8 @@
 #include "playserver.h"
 #include <QVariant>
 #include <QSqlQuery>
+#include <QDebug>
+#include <QSqlError>
 
 PlayThread::PlayThread(quintptr socketDescriptor, QObject *parent)
     :QThread(parent),
@@ -14,7 +16,10 @@ PlayThread::PlayThread(quintptr socketDescriptor, QObject *parent)
     db.setUserName("rucqusUser");
     db.setPassword("rucqusPassword");
     if (!db.open())
+    {
+        qDebug() << db.lastError().text();
         emit error(QTcpSocket::ConnectionRefusedError);
+    }
 }
 
 PlayThread::~PlayThread()
@@ -28,7 +33,6 @@ void PlayThread::run()
         emit error(tcpSocket.error());
         return;
     }
-
     there.setDevice(&tcpSocket);
     there.setVersion(QDataStream::Qt_5_15);
     connect (&tcpSocket, &QTcpSocket::readyRead, this, &PlayThread::readCommand);
@@ -37,6 +41,7 @@ void PlayThread::run()
 
 void PlayThread::onError(QTcpSocket::SocketError socketError)
 {
+    qDebug() << "ERROR" << socketError;
     emit error(socketError);
 }
 
@@ -52,6 +57,7 @@ void PlayThread::readCommand()
     PlayServer *server = static_cast<PlayServer *>(this->parent());
     switch (com) {
         case PlayServer::AddMedia: {
+            qDebug() << "rec AddMedia " << arg.toUInt();
             QSqlQuery q;
             q.prepare("SELECT path FROM songs WHERE id = ?");
             q.addBindValue(arg);
@@ -60,6 +66,7 @@ void PlayThread::readCommand()
             break;
         }
         case PlayServer::Play:
+            qDebug("rec play");
             server->play();
             break;
         default: // not implemented
