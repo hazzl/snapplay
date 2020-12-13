@@ -5,12 +5,13 @@
 #include <QDebug>
 #include <QSqlError>
 
-PlayThread::PlayThread(quintptr socketDescriptor, QObject *parent)
+PlayThread::PlayThread(PlayServer* server, qintptr socketDescriptor, QObject *parent)
     :QThread(parent),
-      socketDescriptor(socketDescriptor)
+      server{server},
+      socketDescriptor{socketDescriptor}
 {
     connect (this, &QThread::finished, this, &QThread::deleteLater);
-    db.addDatabase("MARIADB");
+    db.addDatabase("QMARIADB");
     db.setHostName("localhost");
     db.setDatabaseName("rucqus");
     db.setUserName("rucqusUser");
@@ -54,7 +55,6 @@ void PlayThread::readCommand()
     if (!there.commitTransaction()) // if there was not enough data to read both obejcts
         return;                     // wait for more data
 
-    PlayServer *server = static_cast<PlayServer *>(this->parent());
     switch (com) {
         case PlayServer::AddMedia: {
             qDebug() << "rec AddMedia " << arg.toUInt();

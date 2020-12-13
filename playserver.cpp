@@ -21,7 +21,7 @@ void PlayServer::onNewMedia(const QMediaContent &content)
 
 void PlayServer::incomingConnection(qintptr socketDescriptor)
 {
-    PlayThread *t = new PlayThread(socketDescriptor, this);
+    PlayThread *t = new PlayThread(this, socketDescriptor);
     t->start();
 }
 

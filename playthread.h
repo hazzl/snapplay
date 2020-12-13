@@ -5,18 +5,20 @@
 #include <QTcpSocket>
 #include <QDataStream>
 #include <QSqlDatabase>
+#include <playserver.h>
 
 class PlayThread : public QThread
 {
     Q_OBJECT
 public:
-    explicit PlayThread(quintptr socketDescriptor, QObject *parent = nullptr);
+    explicit PlayThread(PlayServer* server, qintptr socketDescriptor, QObject *parent = nullptr);
     ~PlayThread();
     void run() override;
 signals:
     void error(QTcpSocket::SocketError socketError);
 private:
-    int socketDescriptor;
+    PlayServer *server;
+    const qintptr socketDescriptor;
     QDataStream there;
     QTcpSocket tcpSocket;
     QSqlDatabase db;
