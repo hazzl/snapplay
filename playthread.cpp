@@ -28,10 +28,12 @@ PlayThread::PlayThread(PlayServer* server, qintptr socketDescriptor, QObject *pa
         qDebug() << "db:" << err.databaseText() << "driver:" << err.driverText();
         emit error(QTcpSocket::ConnectionRefusedError);
     }
+    qDebug("database successfully opened");
 }
 
 void PlayThread::run()
 {
+    qDebug("entering run");
     if (!tcpSocket.setSocketDescriptor(socketDescriptor)) {
         emit error(tcpSocket.error());
         return;
@@ -40,6 +42,7 @@ void PlayThread::run()
     there.setVersion(QDataStream::Qt_5_15);
     connect (&tcpSocket, &QTcpSocket::readyRead, this, &PlayThread::readCommand);
     connect (&tcpSocket, &QTcpSocket::errorOccurred, this, &PlayThread::onError);
+    qDebug("run done");
 }
 
 void PlayThread::onError(QTcpSocket::SocketError socketError)
@@ -50,6 +53,7 @@ void PlayThread::onError(QTcpSocket::SocketError socketError)
 
 void PlayThread::readCommand()
 {
+    qDebug("readCommand");
     PlayServer::Command com;
     QVariant arg;
     there.startTransaction();
