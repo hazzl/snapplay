@@ -1,6 +1,7 @@
 #include "playthread.h"
 #include "playserver.h"
 #include <QVariant>
+#include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QDebug>
 #include <QSqlError>
@@ -12,7 +13,9 @@ PlayThread::PlayThread(PlayServer* server, qintptr socketDescriptor, QObject *pa
 {
     Q_UNUSED(parent);
     connect (this, &QThread::finished, this, &QThread::deleteLater);
-    db.addDatabase("QMARIADB");
+    QSqlDatabase db = QSqlDatabase::addDatabase("QMARIADB");
+    if(!db.isDriverAvailable("QMARIADB"))
+        qDebug() << "availble drivers:" << db.drivers();
     db.setHostName("localhost");
     db.setDatabaseName("rucqus");
     db.setUserName("rucqusUser");
@@ -25,11 +28,6 @@ PlayThread::PlayThread(PlayServer* server, qintptr socketDescriptor, QObject *pa
         qDebug() << "db:" << err.databaseText() << "driver:" << err.driverText();
         emit error(QTcpSocket::ConnectionRefusedError);
     }
-}
-
-PlayThread::~PlayThread()
-{
-    db.close();
 }
 
 void PlayThread::run()
