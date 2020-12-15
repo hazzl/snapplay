@@ -18,7 +18,6 @@ private:
     PlayServer *server;
     const qintptr socketDescriptor;
     QDataStream there;
-    QTcpSocket tcpSocket;
 private slots:
     void readCommand();
     void onError(QTcpSocket::SocketError socketError);

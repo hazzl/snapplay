@@ -33,6 +33,7 @@ PlayThread::PlayThread(PlayServer* server, qintptr socketDescriptor, QObject *pa
 
 void PlayThread::run()
 {
+    QTcpSocket tcpSocket;
     qDebug("entering run");
     if (!tcpSocket.setSocketDescriptor(socketDescriptor)) {
         qDebug("couldn't set descriptor");
