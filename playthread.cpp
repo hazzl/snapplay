@@ -6,19 +6,23 @@
 #include <QSqlError>
 
 PlayThread::PlayThread(PlayServer* server, qintptr socketDescriptor, QObject *parent)
-    :QThread(parent),
+    :QThread(nullptr),
       server{server},
       socketDescriptor{socketDescriptor}
 {
+    Q_UNUSED(parent);
     connect (this, &QThread::finished, this, &QThread::deleteLater);
     db.addDatabase("QMARIADB");
     db.setHostName("localhost");
     db.setDatabaseName("rucqus");
     db.setUserName("rucqusUser");
     db.setPassword("rucqusPassword");
+    if (!db.isValid())
+        qDebug("invalid database");
     if (!db.open())
     {
-        qDebug() << db.lastError().text();
+        QSqlError err = db.lastError();
+        qDebug() << "db:" << err.databaseText() << "driver:" << err.driverText();
         emit error(QTcpSocket::ConnectionRefusedError);
     }
 }
