@@ -35,12 +35,17 @@ void PlayThread::run()
 {
     qDebug("entering run");
     if (!tcpSocket.setSocketDescriptor(socketDescriptor)) {
+        qDebug("couldn't set descriptor");
         emit error(tcpSocket.error());
         return;
     }
+    qDebug("setDevice");
     there.setDevice(&tcpSocket);
+    qDebug("setVersion");
     there.setVersion(QDataStream::Qt_5_15);
+    qDebug("connect readyRead");
     connect (&tcpSocket, &QTcpSocket::readyRead, this, &PlayThread::readCommand);
+    qDebug("connect error");
     connect (&tcpSocket, &QTcpSocket::errorOccurred, this, &PlayThread::onError);
     qDebug("run done");
 }
