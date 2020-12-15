@@ -18,8 +18,8 @@ PlayThread::PlayThread(PlayServer* server, qintptr socketDescriptor, QObject *pa
         qDebug() << "availble drivers:" << db.drivers();
     db.setHostName("localhost");
     db.setDatabaseName("rucqus");
-    db.setUserName("rucqusUser");
-    db.setPassword("rucqusPassword");
+    db.setUserName("rucqususer");
+    db.setPassword("rucquspassword");
     if (!db.isValid())
         qDebug("invalid database");
     if (!db.open())
